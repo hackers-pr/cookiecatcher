@@ -10,17 +10,23 @@
             "https://www.reddit.com/",
             "https://www.google.com/",
             "https://github.com/",
-            "https://discord.com",
             "https://twitter.com/",
             "https://www.facebook.com/",
-            "https://open.spotify.com/"
+            "https://open.spotify.com/",
+            "https://docs.python.org/",
+            "https://www.ruby-lang.org/",
+            "https://stackoverflow.com/",
+            "https://askubuntu.com/"
         ]
 
     },
 
-    "SLOWDOWN": true,
+    "SLOWDOWN": false,
     
     "SLOWDOWN_RANGE": [
         6, 10
-    ]
+    ],
+
+    "CONTINUE_MESSAGE_X": 60
+
 }

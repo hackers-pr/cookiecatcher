@@ -1,5 +1,6 @@
-import requests, re, json, random, os
+import requests, re, json, random
 from time import sleep
+from Cookies import cookieactions
 
 class cookiecatcher():
 
@@ -13,6 +14,7 @@ class cookiecatcher():
             self.USERAGENT=random.choice(USERAGENTS)
             self.SLOWDOWN=config['SLOWDOWN']
             self.SLOWDOWN_RANGE=config['SLOWDOWN_RANGE']
+            self.CONTINUE_MESSAGE_X=config['CONTINUE_MESSAGE_X']
 
     def request(self):
         self.domain=re.sub(r'[?]', '/', self.next_page).split('/')[2]; self.current_page=self.next_page
@@ -70,10 +72,18 @@ class cookiecatcher():
 
         if self.SLOWDOWN:
             sleep(random.randint(self.SLOWDOWN_RANGE[0], self.SLOWDOWN_RANGE[1]))
+    
+    def return_CMX(self):
+        return self.CONTINUE_MESSAGE_X
 
 if __name__=="__main__":
-    cc=cookiecatcher()
+    cc=cookiecatcher(); user_input=str()
     cc.configload()
-    while True:
-        cc.request()
-        cc.parse()
+
+    while user_input.lower().strip()!='q':
+
+        for unused in range(cc.return_CMX()):
+            cc.request()
+            cc.parse()
+
+        user_input=input('Cookies ('+str(cookieactions.cookieactions().number_of_cookies())+') take '+str(cookieactions.cookieactions().cookies_size())+' of memory. Continue? (q to quit)\n')

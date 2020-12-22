@@ -1,0 +1,26 @@
+{
+
+    "const": {
+
+        "USERAGENTS": [
+            "Mozilla/6.1 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0"
+        ],
+
+        "STARTURLS": [
+            "https://www.reddit.com/",
+            "https://www.google.com/",
+            "https://github.com/",
+            "https://discord.com",
+            "https://twitter.com/",
+            "https://www.facebook.com/",
+            "https://open.spotify.com/"
+        ]
+
+    },
+
+    "SLOWDOWN": true,
+    
+    "SLOWDOWN_RANGE": [
+        6, 10
+    ]
+}

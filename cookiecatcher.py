@@ -30,12 +30,11 @@ class cookiecatcher():
 
         try:
             if cookie!=None:
-                self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT})
+                self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT}, timeout=5)
             else:
-                self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT, 'cookie': cookie})
+                self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT, 'cookie': cookie}, timeout=5)
 
         except:
-            print('An error was occured, the next url will be selected from the STARTURLS')
             self.next_page=random.choice(self.STARTURLS)
 
     def parse(self):
@@ -50,7 +49,6 @@ class cookiecatcher():
         if len(res)>0:
             self.next_page=random.choice([re.sub('<a href="(.+)"', r'\1', x) for x in res])
         else:
-            print('Dead end, the next url will be selected from the STARTURLS')
             self.next_page=random.choice(self.STARTURLS)
 
         if self.page.headers.get('set-cookie')!=None:

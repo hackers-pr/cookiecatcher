@@ -1,7 +1,8 @@
 # cookiecatcher
 # A program, that simulates a user's browser session and collects cookies
 
-# requirements:
+requirements:
+
 python >3.8
 requests
 

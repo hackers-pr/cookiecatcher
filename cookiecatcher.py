@@ -1,4 +1,4 @@
-import requests, re, json, random, os
+import requests, re, json, random, os, threading
 from time import sleep
 
 class cookiecatcher():
@@ -21,7 +21,7 @@ class cookiecatcher():
 
     def parsenext(self):
         print(self.next_page)
-        dont_write=False; domain=self.next_page.split('/')[2]
+        dont_write=False; domain=re.sub(r'[?]', '/', self.next_page).split('/')[2]; current_page=self.next_page
 
         with open('Cookies/cookies.json', 'r') as raw_cookies:
             cookies=raw_cookies.read()
@@ -32,13 +32,23 @@ class cookiecatcher():
             except:
                 cookie=None
 
-        if cookie!=None:
-            self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT})
-        else:
-            self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT, 'cookie': cookie})
+        try:
+            if cookie!=None:
+                self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT})
+            else:
+                self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT, 'cookie': cookie})
+        
+        except:
+            print('An error was occured, the next url will be selected from the STARTURLS')
+            self.next_page=random.choice(self.STARTURLS)
 
-        current_page=self.next_page
-        res=re.findall('<a href="http[s]*://.*?"', self.page.text)
+        res=[re.sub('<a href="(http[s]*://.+)"', r'\1', raw_url) for raw_url in re.findall('<a href="http[s]*://.*?"', self.page.text)]; err=True
+
+        while err:
+            try:
+                res.remove(current_page)
+            except:
+                err=False
 
         if len(res)>0:
             self.next_page=random.choice([re.sub('<a href="(.+)"', r'\1', x) for x in res])
@@ -66,8 +76,18 @@ class cookiecatcher():
         if self.SLOWDOWN:
             sleep(random.randint(self.SLOWDOWN_RANGE[0], self.SLOWDOWN_RANGE[1]))
 
+def threading_input():
+    global user_input
+    user_input=None
+
+    while user_input==None:
+        user_input=input('If you want to exit, press ENTER\n')
+        print('Exiting...')
+
+threading.Thread(target=threading_input).start()
+
 if __name__=="__main__":
-    cc=cookiecatcher()
+    cc, user_input=cookiecatcher(), None
     cc.configload()
-    while True:
+    while user_input==None:
         cc.parsenext()

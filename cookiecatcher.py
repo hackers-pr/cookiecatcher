@@ -70,9 +70,6 @@ class cookiecatcher():
 
         if self.SLOWDOWN:
             sleep(random.randint(self.SLOWDOWN_RANGE[0], self.SLOWDOWN_RANGE[1]))
-    
-    def return_CMX(self):
-        return self.CONTINUE_MESSAGE_X
 
 if __name__=="__main__":
     cc=cookiecatcher(); user_input=str()
@@ -80,7 +77,7 @@ if __name__=="__main__":
 
     while user_input.lower().strip()!='q':
 
-        for unused in range(cc.return_CMX()):
+        for unused in range(cc.CONTINUE_MESSAGE_X):
             cc.request()
             cc.parse()
 

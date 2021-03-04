@@ -17,19 +17,20 @@ class cookiecatcher():
             self.CONTINUE_MESSAGE_X=config['CONTINUE_MESSAGE_X']
 
     def request(self):
-        self.domain=re.sub(r'[?]', '/', self.next_page).split('/')[2]; self.current_page=self.next_page
+        self.domain=re.sub(r'[?]', '/', self.next_page).split('/')[2]
+        self.current_page=self.next_page
 
         with open('Cookies/cookies.json', 'r') as raw_cookies:
             cookies=raw_cookies.read()
             current_cookies=json.loads(cookies)
 
-            if current_cookies.get(self.domain)!=None:
+            if not current_cookies.get(self.domain) is None:
                 cookie=current_cookies[self.domain]
             else:
                 cookie=None
 
         try:
-            if cookie!=None:
+            if not cookie is None:
                 self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT}, timeout=5)
             else:
                 self.page=requests.get(self.next_page, headers={'user-agent': self.USERAGENT, 'cookie': cookie}, timeout=5)
@@ -51,7 +52,7 @@ class cookiecatcher():
         else:
             self.next_page=random.choice(self.STARTURLS)
 
-        if self.page.headers.get('set-cookie')!=None:
+        if not self.page.headers.get('set-cookie') is None:
             cookie=self.page.headers['set-cookie']
         else:
             dont_write=True
@@ -72,7 +73,8 @@ class cookiecatcher():
             sleep(random.randint(self.SLOWDOWN_RANGE[0], self.SLOWDOWN_RANGE[1]))
 
 if __name__=="__main__":
-    cc=cookiecatcher(); user_input=str()
+    cc=cookiecatcher()
+    user_input=str()
     cc.configload()
 
     while user_input.lower().strip()!='q':

@@ -10,5 +10,3 @@ class cookieactions():
         with open('Cookies/cookies.json', 'r') as raw_cookies:
             cookies=json.loads(raw_cookies.read())
             return len(cookies)
-
-    
